@@ -1,55 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-class TodoInput extends React.Component {
-    constructor(props) {
-        super(props);
+function TodoInput({ addTodo }) {
 
-        this.state = {
-            newTodo: ''
-        }
+    const [newTodo, setNewTodo] = useState('');
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleClick = this.handleClick.bind(this);
+    const handleChange = ({ target }) => {
+        setNewTodo(target.value)
     }
 
-    handleChange({ target }) {
-        this.setState({
-            newTodo: target.value,
-        });
-    }
-
-    handleClick() {
-        const { addTodo } = this.props;
-        const { newTodo } = this.state;
-
-        console.log(newTodo);
-
+    const handleClick = () => {
         addTodo(newTodo);
-
-        this.setState({ newTodo: '' })
+        setNewTodo('');
     }
 
+    return (
+        <section>
+            <label htmlFor="addTodo">
+                Insira uma tarefa:
+                <input
+                    value={newTodo}
+                    onChange={handleChange}
+                    type="text"
+                    name="newTodo"
+                    id="newTodo"
+                />
+            </label>
+            <button onClick={handleClick}>Adicionar Tarefa</button>
+        </section>
 
-
-    render() {
-        const { newTodo } = this.state;
-        return (
-            <section>
-                <label htmlFor="addTodo">
-                    Insira uma tarefa:
-                    <input 
-                        value={newTodo}
-                        onChange={this.handleChange}
-                        type="text"
-                        name="newTodo"
-                        id="newTodo"
-                    />
-                </label>
-                <button onClick={this.handleClick}>Adicionar Tarefa</button>
-            </section>
-
-        );
-    }
+    )
 }
+
 
 export default TodoInput;
